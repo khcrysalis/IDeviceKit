@@ -12,8 +12,8 @@ import IDevice
 
 // MARK: - Class
 // ـ♡ﮩ٨ـ heartbeat ♪₊˚
-class HeartbeatManager {
-	static let shared = HeartbeatManager()
+public class HeartbeatManager {
+	static public let shared = HeartbeatManager()
 	
 	typealias IdevicePairingFile = OpaquePointer
 	typealias TcpProviderHandle = OpaquePointer
@@ -37,7 +37,7 @@ class HeartbeatManager {
 	
 	// One important note is that if a user gets `InvalidHostID -9` from heartbeat
 	// we need to ask them to reimport a fresh pairingfile,
-	init() {
+	public init() {
 		#if DEBUG
 		idevice_init_logger(IdeviceLogLevel.init(3), Disabled, nil)
 		#endif
@@ -55,7 +55,7 @@ class HeartbeatManager {
 	}
 	/// Returns (idevice) pairing file path
 	/// - Returns: `Documents/Feather/pairingFile.plist`
-	static func pairingFile() -> String {
+	static public func pairingFile() -> String {
 		URL.documentsDirectory.appendingPathComponent("pairingFile.plist").path()
 	}
 }

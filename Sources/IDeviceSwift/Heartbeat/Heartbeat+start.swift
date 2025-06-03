@@ -14,7 +14,7 @@ import IDevice
 extension HeartbeatManager {
 	/// Starts heartbeat
 	/// - Parameter forceRestart: Force restarts heartbeat
-	func start(_ forceRestart: Bool = false) {
+	public func start(_ forceRestart: Bool = false) {
 		restartLock.lock()
 		defer { restartLock.unlock() }
 		
@@ -69,7 +69,7 @@ extension HeartbeatManager {
 		}
 	}
 	/// Schedules heartbeat restart if any errors occur
-	private func _scheduleRestart() {
+	func _scheduleRestart() {
 		let workItem = DispatchWorkItem { [weak self] in
 			guard let self = self else { return }
 			
@@ -89,7 +89,7 @@ extension HeartbeatManager {
 	}
 	/// Establishes heartbeat
 	/// - Parameter completion: Completes with optionally an idevice error code
-	private func _establishHeartbeat(
+	func _establishHeartbeat(
 		completion: @escaping (IdeviceFfiError?) -> Void
 	) {
 		guard let pairingFile = getPairing() else {
@@ -119,7 +119,7 @@ extension HeartbeatManager {
 	///   - provider: Pointer to TCP Provider
 	///   - sessionId: Random sessionID
 	///   - completion: Completes with optionally an idevice error code
-	private func _startHeartbeat(
+	func _startHeartbeat(
 		pairingFile: IdevicePairingFile,
 		provider: inout TcpProviderHandle?,
 		sessionId: UInt32?,
@@ -184,7 +184,7 @@ extension HeartbeatManager {
 	///   - heartbeatClient: Heartbeat Client pointer
 	///   - currentSession: "Current" sessionID
 	///   - sessionId: Random sessionID
-	private func _runHeartbeatLoop(
+	func _runHeartbeatLoop(
 		heartbeatClient: HeartbeatClientHandle,
 		currentSession: UInt32?,
 		sessionId: UInt32?

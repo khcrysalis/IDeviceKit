@@ -6,12 +6,13 @@
 //
 
 import Foundation
+import IDevice
 
 // MARK: - Class extension: socket
 extension HeartbeatManager {
 	/// Check connection to socket/tunnel
 	/// - Returns: Tuple for connection status and error message (if any)
-	func checkSocketConnection(timeoutInSeconds: Double = 2.0) -> (isConnected: Bool, error: String?) {
+	public func checkSocketConnection(timeoutInSeconds: Double = 2.0) -> (isConnected: Bool, error: String?) {
 		let socketFD = socket(AF_INET, SOCK_STREAM, 0)
 		if socketFD == -1 {
 			return (false, "Failed to create socket")
@@ -87,7 +88,7 @@ extension HeartbeatManager {
 		
 		var pairingFile: IdevicePairingFile?
 		
-		guard idevice_pairing_file_read(Self.pairingFile(), &pairingFile) == IdeviceSuccess else {
+		guard idevice_pairing_file_read(Self.pairingFile(), &pairingFile) == nil else {
 			return nil
 		}
 		

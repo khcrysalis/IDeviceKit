@@ -8,7 +8,7 @@
 import Combine
 
 extension InstallerStatusViewModel {
-	enum InstallerStatus {
+	public enum InstallerStatus {
 		case none
 		case ready
 		case sendingManifest
@@ -19,15 +19,15 @@ extension InstallerStatusViewModel {
 	}
 }
 
-class InstallerStatusViewModel: ObservableObject {
-	@Published var status: InstallerStatus
-	@Published var uploadProgress: Double = 0.0
-	@Published var packageProgress: Double = 0.0
-	@Published var installProgress: Double = 0.0
+public class InstallerStatusViewModel: ObservableObject {
+	@Published public var status: InstallerStatus
+	@Published public var uploadProgress: Double = 0.0
+	@Published public var packageProgress: Double = 0.0
+	@Published public var installProgress: Double = 0.0
 	
-	var isDevice: Bool = true
+	public var isDevice: Bool = true
 	
-	var overallProgress: Double {
+	public var overallProgress: Double {
 		if isDevice {
 			(installProgress + uploadProgress + packageProgress) / 3.0
 		} else {
@@ -35,7 +35,7 @@ class InstallerStatusViewModel: ObservableObject {
 		}
 	}
 	
-	var isCompleted: Bool {
+	public var isCompleted: Bool {
 		if case .completed = status {
 			true
 		} else {
@@ -43,7 +43,7 @@ class InstallerStatusViewModel: ObservableObject {
 		}
 	}
 	
-	init(status: InstallerStatus = .none) {
+	public init(status: InstallerStatus = .none) {
 		self.status = status
 	}
 }
