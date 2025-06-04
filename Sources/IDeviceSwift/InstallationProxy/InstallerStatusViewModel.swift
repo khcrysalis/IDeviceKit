@@ -25,10 +25,10 @@ public class InstallerStatusViewModel: ObservableObject {
 	@Published public var packageProgress: Double = 0.0
 	@Published public var installProgress: Double = 0.0
 	
-	public var isDevice: Bool = true
+	public var isIDevice: Bool
 	
 	public var overallProgress: Double {
-		if isDevice {
+		if isIDevice {
 			(installProgress + uploadProgress + packageProgress) / 3.0
 		} else {
 			packageProgress
@@ -43,7 +43,11 @@ public class InstallerStatusViewModel: ObservableObject {
 		}
 	}
 	
-	public init(status: InstallerStatus = .none) {
+	public init(
+		status: InstallerStatus = .none,
+		isIdevice: Bool = true
+	) {
 		self.status = status
+		self.isIDevice = isIdevice
 	}
 }
