@@ -8,5 +8,6 @@
 import Foundation.NSNotification
 
 extension Notification.Name {
-	static let heartbeat = Notification.Name("FR.heartBeat")
+	static public let heartbeat = Notification.Name("FR.heartBeat")
+	static public let heartbeatInvalidHost = Notification.Name("FR.heartBeatInvalidHost")
 }

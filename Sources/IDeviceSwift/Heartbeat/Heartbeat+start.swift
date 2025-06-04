@@ -155,16 +155,13 @@ extension HeartbeatManager {
 		if hbConnectResult != nil {
 			Logger.heartbeat.error("Failed to start heartbeat client")
 			
-			if hbConnectResult?.pointee.code == -9, fileManager.fileExists(atPath: Self.pairingFile()) {
+			if hbConnectResult?.pointee.code == -10, fileManager.fileExists(atPath: Self.pairingFile()) {
 				Logger.heartbeat.info("Deleting pairing file, requesting for a new one.")
 				try? fileManager.removeItem(atPath: Self.pairingFile())
 				
-//				DispatchQueue.main.async {
-//					UIAlertController.showAlertWithOk(
-//						title: "InvalidHostID",
-//						message: "Your pairing file is invalid and is incompatible with your device, please import a valid pairing file."
-//					)
-//				}
+				DispatchQueue.main.async {
+					NotificationCenter.default.post(name: .heartbeatInvalidHost, object: nil)
+				}
 			}
 			
 			completion(nil)
