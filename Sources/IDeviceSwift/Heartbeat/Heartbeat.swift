@@ -19,21 +19,21 @@ public class HeartbeatManager {
 	typealias TcpProviderHandle = OpaquePointer
 	typealias HeartbeatClientHandle = OpaquePointer
 	
-	var fileManager = FileManager.default
+	public var fileManager = FileManager.default
 	var provider: TcpProviderHandle?
-	var heartbeatThread: Thread?
+	public var heartbeatThread: Thread?
 	
-	var sessionId: UInt32? = nil
-	let ipAddress: String = "10.7.0.1"
-	let port: UInt16 = UInt16(LOCKDOWN_PORT)
+	public var sessionId: UInt32? = nil
+	public let ipAddress: String = "10.7.0.1"
+	public let port: UInt16 = UInt16(LOCKDOWN_PORT)
 	
-	let restartLock = NSLock()
-	var isRestartInProgress = false
-	var restartBackoffTime: TimeInterval = 1.0
-	var restartWorkItem: DispatchWorkItem?
-	var firstRun = false
+	public let restartLock = NSLock()
+	public var isRestartInProgress = false
+	public var restartBackoffTime: TimeInterval = 1.0
+	public var restartWorkItem: DispatchWorkItem?
+	public var firstRun = false
 	
-	var cancellable: AnyCancellable? // Combine
+	public var cancellable: AnyCancellable? // Combine
 	
 	// One important note is that if a user gets `InvalidHostID -9` from heartbeat
 	// we need to ask them to reimport a fresh pairingfile,

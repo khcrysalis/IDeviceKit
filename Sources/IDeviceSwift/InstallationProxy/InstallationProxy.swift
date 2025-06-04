@@ -17,7 +17,8 @@ public class InstallationProxy: Identifiable, ObservableObject {
 	typealias AfcFileHandle = OpaquePointer
 	typealias InstallationProxyClientHandle = OpaquePointer
 	
-	@ObservedObject var viewModel: InstallerStatusViewModel
+	@ObservedObject
+	public var viewModel: InstallerStatusViewModel
 	
 	public init(viewModel: InstallerStatusViewModel) {
 		self.viewModel = viewModel

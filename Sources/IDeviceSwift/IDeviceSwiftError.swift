@@ -9,30 +9,30 @@ import Foundation
 import IDevice
 
 struct IDeviceSwiftError: Error {
-	let message: String
-	let code: Int32
+	private let _message: String
+	private let _code: Int32
 	
 	init(_ error: IdeviceFfiError?) {
-		self.message = error?.message.flatMap {
+		self._message = error?.message.flatMap {
 			String(cString: $0)
 		} ?? ""
-		self.code = error?.code ?? 0
+		self._code = error?.code ?? 0
 	}
 	
 	init(_ error: UnsafeMutablePointer<IdeviceFfiError>?) {
 		if let cMessage = error?.pointee.message {
-			self.message = String(cString: cMessage)
+			self._message = String(cString: cMessage)
 		} else {
-			self.message = ""
+			self._message = ""
 		}
-		self.code = error?.pointee.code ?? 0
+		self._code = error?.pointee.code ?? 0
 	}
 	
 	init(
 		_ code: Int32 = -7001, // our custom error hehe
 		message: String
 	) {
-		self.message = message
-		self.code = code
+		self._message = message
+		self._code = code
 	}
 }

@@ -69,7 +69,7 @@ extension HeartbeatManager {
 		}
 	}
 	/// Schedules heartbeat restart if any errors occur
-	func _scheduleRestart() {
+	private func _scheduleRestart() {
 		let workItem = DispatchWorkItem { [weak self] in
 			guard let self = self else { return }
 			
@@ -119,7 +119,7 @@ extension HeartbeatManager {
 	///   - provider: Pointer to TCP Provider
 	///   - sessionId: Random sessionID
 	///   - completion: Completes with optionally an idevice error code
-	func _startHeartbeat(
+	private func _startHeartbeat(
 		pairingFile: IdevicePairingFile,
 		provider: inout TcpProviderHandle?,
 		sessionId: UInt32?,
@@ -181,7 +181,7 @@ extension HeartbeatManager {
 	///   - heartbeatClient: Heartbeat Client pointer
 	///   - currentSession: "Current" sessionID
 	///   - sessionId: Random sessionID
-	func _runHeartbeatLoop(
+	private func _runHeartbeatLoop(
 		heartbeatClient: HeartbeatClientHandle,
 		currentSession: UInt32?,
 		sessionId: UInt32?
