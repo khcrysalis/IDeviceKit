@@ -9,7 +9,7 @@ import Foundation
 import SwiftUICore
 import IDevice
 
-class InstallationProxy: Identifiable, ObservableObject {
+public class InstallationProxy: Identifiable, ObservableObject {
 	private let _heartbeat = HeartbeatManager.shared
 	private let _uuid = UUID().uuidString
 	
@@ -19,11 +19,11 @@ class InstallationProxy: Identifiable, ObservableObject {
 	
 	@ObservedObject var viewModel: InstallerStatusViewModel
 	
-	init(viewModel: InstallerStatusViewModel) {
+	public init(viewModel: InstallerStatusViewModel) {
 		self.viewModel = viewModel
 	}
 	
-	func install(at url: URL) async throws {
+	public func install(at url: URL) async throws {
 		var afcClient: AfcClientHandle?
 		var fileHandle: AfcFileHandle?
 		var installproxy: InstallationProxyClientHandle?
