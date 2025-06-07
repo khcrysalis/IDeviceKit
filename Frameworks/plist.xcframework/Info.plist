@@ -6,13 +6,11 @@
 	<array>
 		<dict>
 			<key>BinaryPath</key>
-			<string>libplist-2.0.4.dylib</string>
-			<key>HeadersPath</key>
-			<string>Headers</string>
+			<string>plist.framework/plist</string>
 			<key>LibraryIdentifier</key>
 			<string>ios-arm64_x86_64-simulator</string>
 			<key>LibraryPath</key>
-			<string>libplist-2.0.4.dylib</string>
+			<string>plist.framework</string>
 			<key>SupportedArchitectures</key>
 			<array>
 				<string>arm64</string>
@@ -25,13 +23,11 @@
 		</dict>
 		<dict>
 			<key>BinaryPath</key>
-			<string>libplist-2.0.4.dylib</string>
-			<key>HeadersPath</key>
-			<string>Headers</string>
+			<string>plist.framework/plist</string>
 			<key>LibraryIdentifier</key>
 			<string>macos-arm64_x86_64</string>
 			<key>LibraryPath</key>
-			<string>libplist-2.0.4.dylib</string>
+			<string>plist.framework</string>
 			<key>SupportedArchitectures</key>
 			<array>
 				<string>arm64</string>
@@ -42,13 +38,11 @@
 		</dict>
 		<dict>
 			<key>BinaryPath</key>
-			<string>libplist-2.0.4.dylib</string>
-			<key>HeadersPath</key>
-			<string>Headers</string>
+			<string>plist.framework/plist</string>
 			<key>LibraryIdentifier</key>
 			<string>ios-arm64</string>
 			<key>LibraryPath</key>
-			<string>libplist-2.0.4.dylib</string>
+			<string>plist.framework</string>
 			<key>SupportedArchitectures</key>
 			<array>
 				<string>arm64</string>
