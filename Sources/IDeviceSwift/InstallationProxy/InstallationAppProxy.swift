@@ -64,15 +64,6 @@ public class InstallationAppProxy: NSObject {
 						do {
 							let appInfo = try decoder.decode(AppInfo.self, from: data)
 							appInfos.append(appInfo)
-							
-							// JSON encode and print
-							let jsonEncoder = JSONEncoder()
-							jsonEncoder.outputFormatting = [.prettyPrinted, .sortedKeys] // nice formatting
-							
-							let jsonData = try jsonEncoder.encode(appInfo)
-							if let jsonString = String(data: jsonData, encoding: .utf8) {
-								print(jsonString)
-							}
 						} catch {
 							print("Failed to decode AppInfo plist: \(error)")
 						}
