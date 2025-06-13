@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUICore
 import IDevice
+import UIKit.UIApplication
 
 public class InstallationProxy: Identifiable, ObservableObject {
 	private let _heartbeat = HeartbeatManager.shared
@@ -24,7 +25,7 @@ public class InstallationProxy: Identifiable, ObservableObject {
 		self.viewModel = viewModel
 	}
 	
-	public func install(at url: URL) async throws {
+	public func install(at url: URL, suspend: Bool = false) async throws {
 		var afcClient: AfcClientHandle?
 		var fileHandle: AfcFileHandle?
 		var installproxy: InstallationProxyClientHandle?
@@ -111,6 +112,12 @@ public class InstallationProxy: Identifiable, ObservableObject {
 			
 			let installError: UnsafeMutablePointer<IdeviceFfiError>? = remoteDir.withCString { cString in
 				let context = Unmanaged.passUnretained(self).toOpaque()
+				
+				if suspend {
+					DispatchQueue.main.async {
+						UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+					}
+				}
 				
 				return installation_proxy_install_with_callback(
 					installproxy,
