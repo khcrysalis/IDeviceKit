@@ -160,23 +160,61 @@ public class InstallationProxy: Identifiable, ObservableObject {
 			
 			print(4)
 			
-			let installError: UnsafeMutablePointer<IdeviceFfiError>? = remoteDir.withCString { cString in
-				let context = Unmanaged.passUnretained(self).toOpaque()
-				
-				if suspend {
-					DispatchQueue.main.async {
-						UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-					}
-				}
-				
-				return installation_proxy_install_with_callback(
+			let ownedPath = strdup(remoteDir)
+			defer { free(ownedPath) }
+
+			func runInstall() -> UnsafeMutablePointer<IdeviceFfiError>? {
+				installation_proxy_install_with_callback(
 					installproxy,
-					cString,
+					ownedPath,
 					nil, // options
 					Self._installationProgressCallback,
-					context
+					Unmanaged.passUnretained(self).toOpaque()
 				)
 			}
+
+			if suspend {
+				// For suspend(self-install) cases app must exit so that installd can actually
+				// update the app. Do a best effort to catch fast installation failures.
+				let earlyError: UnsafeMutablePointer<IdeviceFfiError>? = await withCheckedContinuation { continuation in
+					let resumeQueue = DispatchQueue(label: "InstallationProxy.asyncSelfInstall")
+					var didResume = false
+
+					func resumeOnce(_ value: UnsafeMutablePointer<IdeviceFfiError>?) {
+						resumeQueue.async {
+							guard !didResume else { return }
+							didResume = true
+							continuation.resume(returning: value)
+						}
+					}
+
+					DispatchQueue.global(qos: .utility).async {
+						resumeOnce(runInstall())
+					}
+
+					// breathing room for install request to reach installd
+					DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1.5) {
+						resumeOnce(nil)
+					}
+				}
+
+				if let earlyError {
+					throw IDeviceSwiftError(earlyError)
+				}
+
+				// ensure we actually suspend app
+				await MainActor.run() {
+					UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+				}
+
+				// breathing room for app to suspend
+				try await Task.sleep(nanoseconds: 350_000_000)
+
+				CFPreferencesAppSynchronize(kCFPreferencesCurrentApplication)
+				exit(0)
+			}
+
+			let installError = runInstall()
 			
 			guard installError == nil else {
 				throw IDeviceSwiftError(installError)
